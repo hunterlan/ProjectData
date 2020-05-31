@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-inverse navbar-fixed-topr">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Project Data</a>
+        </nav>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    <footer container body-content>Made by Konstantin Sharykin</footer>
+    <script src="~/node_modules/jquery/dist/jquery.js"></script>
+    <script src="~/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+</html>
