@@ -10,11 +10,6 @@ using ProjectData.Models;
 
 namespace ProjectData.Controllers
 {
-    public enum SortState
-    {
-        NameAsc,    // to end
-        NameDesc   // to start
-    }
     public class CountriesController : Controller
     {
         private readonly CountryContext _context;

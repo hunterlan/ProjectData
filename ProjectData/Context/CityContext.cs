@@ -8,7 +8,7 @@ namespace ProjectData.Context
     {
         private IConfiguration Configuration;
 
-        public DbSet<City> city; 
+        public DbSet<City> city { get; set; }
 
         public CityContext()
         {

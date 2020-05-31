@@ -19,10 +19,52 @@ namespace ProjectData.Controllers
             _context = new CityContext();
         }
 
-        // GET: Cities
-        public async Task<IActionResult> Index()
+        public void HoaraSort(List<City> sortCities, SortState sortOrder, int b, int e)
         {
-            return View(await _context.City.ToListAsync());
+            int i = b;
+            int j = e;
+
+            string startStr = sortCities.ElementAt((i + j) / 2).name;
+            //TO-DO: Fix sorting in DESC mode
+            do
+            {
+                if (sortOrder == SortState.NameAsc)
+                {
+                    while (string.Compare(sortCities.ElementAt(i).name, startStr) < 0) i++;
+                    while (string.Compare(sortCities.ElementAt(j).name, startStr) > 0) j--;
+                }
+                else
+                {
+                    while (string.Compare(sortCities.ElementAt(i).name, startStr) > 0) i++;
+                    while (string.Compare(sortCities.ElementAt(j).name, startStr) < 0) j--;
+                }
+
+                if (i <= j)
+                {
+                    City tempCity = sortCities[i];
+                    sortCities[i] = sortCities[j];
+                    sortCities[j] = tempCity;
+                    i++;
+                    j--;
+                }
+            } while (i <= j);
+
+
+            if (i < e) HoaraSort(sortCities, sortOrder, i, e);
+
+            if (b < j) HoaraSort(sortCities, sortOrder, b, j);
+        }
+
+        // GET: Cities
+        public IActionResult Index(SortState sortOrder = SortState.NameAsc)
+        {
+            List<City> cities = _context.city.ToList();
+
+            HoaraSort(cities, sortOrder, 0, cities.Count - 1);
+
+            
+
+            return View(cities);
         }
 
         // GET: Cities/Create
