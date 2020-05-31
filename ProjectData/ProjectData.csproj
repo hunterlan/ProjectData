@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Styles\" />
-    <Folder Include="Views\Countries\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
