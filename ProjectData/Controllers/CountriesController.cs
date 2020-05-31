@@ -10,6 +10,11 @@ using ProjectData.Models;
 
 namespace ProjectData.Controllers
 {
+    public enum SortState
+    {
+        NameAsc,    // to end
+        NameDesc   // to start
+    }
     public class CountriesController : Controller
     {
         private readonly CountryContext _context;
@@ -20,9 +25,19 @@ namespace ProjectData.Controllers
         }
 
         // GET: Countries
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc)
         {
-            return View(await _context.country.ToListAsync());
+            IQueryable<Country> countries = _context.country.OrderBy(s => s.name);
+
+            ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
+
+            countries = sortOrder switch
+            {
+                SortState.NameDesc => countries.OrderByDescending(s => s.name),
+                _ => countries.OrderBy(s => s.name),
+            };
+
+            return View(await countries.AsNoTracking().ToListAsync());
         }
 
         // GET: Countries/Details/5
