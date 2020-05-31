@@ -25,11 +25,17 @@ namespace ProjectData.Controllers
         }
 
         // GET: Countries
-        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc)
+        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc, string searchString = "")
         {
             IQueryable<Country> countries = _context.country.OrderBy(s => s.name);
 
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
+            ViewData["CurrentFilter"] = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                countries = countries.Where(s => s.name.Contains(searchString));
+            }
 
             countries = sortOrder switch
             {
