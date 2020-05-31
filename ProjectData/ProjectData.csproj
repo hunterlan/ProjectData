@@ -6,9 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\node_modules\**" />
+    <Compile Remove="wwwroot\node_modules\jquery-validation\**" />
     <Content Remove="wwwroot\node_modules\**" />
+    <Content Remove="wwwroot\node_modules\jquery-validation\**" />
     <EmbeddedResource Remove="wwwroot\node_modules\**" />
+    <EmbeddedResource Remove="wwwroot\node_modules\jquery-validation\**" />
     <None Remove="wwwroot\node_modules\**" />
+    <None Remove="wwwroot\node_modules\jquery-validation\**" />
   </ItemGroup>
 
   <ItemGroup>
