@@ -5,4 +5,25 @@
     ViewBag.Title = "Main page";
 }
 
-<h3>Select tables</h3>
+<div class="choise" style="height: 85vh">
+    <h3 style="text-align: center">Select tables</h3>
+    <table class="table table-sm table-striped table-hover border-bottom">
+        <thead>
+            <tr>
+                <th>Countries</th>
+                <th>Regions</th>
+                <th>Cities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="button"
+                           value="See raw data"
+                           onclick="location.href='<%: Url.Action(" Action", "Controller" ) %>'" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
