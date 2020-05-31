@@ -8,7 +8,7 @@ namespace ProjectData.Context
     public class CountryContext : DbContext
     {
         private IConfiguration Configuration;
-        public DbSet<Country> Countries{ get; set; }
+        public DbSet<Country> country{ get; set; }
 
         public CountryContext()
         {

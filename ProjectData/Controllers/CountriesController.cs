@@ -14,15 +14,15 @@ namespace ProjectData.Controllers
     {
         private readonly CountryContext _context;
 
-        public CountriesController(CountryContext context)
+        public CountriesController()
         {
-            _context = context;
+            _context = new CountryContext();
         }
 
         // GET: Countries
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Countries.ToListAsync());
+            return View(await _context.country.ToListAsync());
         }
 
         // GET: Countries/Details/5
@@ -33,7 +33,7 @@ namespace ProjectData.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
+            var country = await _context.country
                 .FirstOrDefaultAsync(m => m.country_id == id);
             if (country == null)
             {
@@ -73,7 +73,7 @@ namespace ProjectData.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries.FindAsync(id);
+            var country = await _context.country.FindAsync(id);
             if (country == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace ProjectData.Controllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
+            var country = await _context.country
                 .FirstOrDefaultAsync(m => m.country_id == id);
             if (country == null)
             {
@@ -139,15 +139,15 @@ namespace ProjectData.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var country = await _context.Countries.FindAsync(id);
-            _context.Countries.Remove(country);
+            var country = await _context.country.FindAsync(id);
+            _context.country.Remove(country);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CountryExists(int id)
         {
-            return _context.Countries.Any(e => e.country_id == id);
+            return _context.country.Any(e => e.country_id == id);
         }
     }
 }
