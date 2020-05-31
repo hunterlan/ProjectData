@@ -14,14 +14,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.name)
+                ID
             </th>
-            <th></th>
+            <th>
+                Name
+            </th>
+            <th>
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.country_id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.name)
             </td>
