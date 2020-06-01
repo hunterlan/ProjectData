@@ -75,13 +75,18 @@ namespace ProjectData.Controllers
         }
 
         // GET: Cities
-        public IActionResult Index(bool isReadable, SortState sortOrder = SortState.NameAsc)
+        public IActionResult Index(bool isReadable, SortState sortOrder = SortState.NameAsc, string searchString = "")
         {
             List<City> cities = _context.city.ToList();
 
             HoaraSort(cities, sortOrder, 0, cities.Count - 1);
+            ViewData["CurrentFilter"] = searchString;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                cities = cities.Where(s => s.name.Contains(searchString)).ToList();
+            }
 
-            if(isReadable)
+            if (isReadable)
             {
                 ViewData["isReadable"] = true;
                 CountryContext countryContext = new CountryContext();
@@ -92,8 +97,8 @@ namespace ProjectData.Controllers
                     region => region.region_id,
                     (cities, region) => new
                     {
-                        city_id = cities.city_id,
-                        country_id = cities.country_id,
+                        cities.city_id,
+                        cities.country_id,
                         City = cities.name,
                         Region = region.name,
                     })

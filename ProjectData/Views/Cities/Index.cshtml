@@ -14,6 +14,34 @@
 <p>
     <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Return to tables</a>
 </p>
+
+@if ((bool)ViewData["isReadable"] == false)
+{
+    <form asp-action="Index" asp-route-isReadable="false" method="get">
+
+        <div class="form-actions no-color">
+            <p>
+                Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" /> |
+                <a class="btn btn-default" asp-action="Index">Back to Full List</a>
+            </p>
+        </div>
+    </form>
+}
+else
+{
+    <form asp-action="Index" asp-route-isReadable="true" method="get">
+
+        <div class="form-actions no-color">
+            <p>
+                Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" /> |
+                <a class="btn btn-default" asp-action="Index">Back to Full List</a>
+            </p>
+        </div>
+    </form>
+}
+
 <table class="table">
     <thead>
         <tr>
