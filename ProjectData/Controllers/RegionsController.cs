@@ -30,7 +30,7 @@ namespace ProjectData.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                regions = regions.Where(s => s.name.Contains(searchString));
+                regions = regions.Where(s => s.name.StartsWith(searchString));
             }
 
             regions = sortOrder switch

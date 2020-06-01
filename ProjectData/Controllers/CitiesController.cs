@@ -81,9 +81,10 @@ namespace ProjectData.Controllers
 
             HoaraSort(cities, sortOrder, 0, cities.Count - 1);
             ViewData["CurrentFilter"] = searchString;
+            ViewData["isReadable"] = false;
             if (!string.IsNullOrEmpty(searchString))
             {
-                cities = cities.Where(s => s.name.Contains(searchString)).ToList();
+                cities = cities.Where(s => s.name.StartsWith(searchString)).ToList();
             }
 
             if (isReadable)

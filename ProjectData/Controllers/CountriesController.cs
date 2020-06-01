@@ -29,7 +29,7 @@ namespace ProjectData.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                countries = countries.Where(s => s.name.Contains(searchString));
+                countries = countries.Where(s => s.name.StartsWith(searchString));
             }
 
             countries = sortOrder switch
