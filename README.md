@@ -17,3 +17,9 @@ Notes:
 
 1. I don't remove from repo appsettings for convenience. I understand, that it's unsecurity.
 2. In VS Studio, it's easier to work, because this IDE do automatically everything.
+
+Used stack technologies:
+- C#.Core (Logic)
+- ASP.NET Core + Bootstrap + jQuery (Web)
+- Entity Framework Core (ORM)
+- MySQL (DB)
