@@ -75,11 +75,45 @@ namespace ProjectData.Controllers
         }
 
         // GET: Cities
-        public IActionResult Index(SortState sortOrder = SortState.NameAsc)
+        public IActionResult Index(bool isReadable, SortState sortOrder = SortState.NameAsc)
         {
             List<City> cities = _context.city.ToList();
 
             HoaraSort(cities, sortOrder, 0, cities.Count - 1);
+
+            if(isReadable)
+            {
+                ViewData["isReadable"] = true;
+                CountryContext countryContext = new CountryContext();
+                RegionContext regionContext = new RegionContext();
+
+                var query = cities.AsQueryable().Join(regionContext.region, 
+                    cities => cities.region_id,
+                    region => region.region_id,
+                    (cities, region) => new
+                    {
+                        city_id = cities.city_id,
+                        country_id = cities.country_id,
+                        City = cities.name,
+                        Region = region.name,
+                    })
+                    .Join
+                    (
+                        countryContext.country,
+                        cities => cities.country_id,
+                        country => country.country_id,
+                        (cities, country) => new FullCity
+                        {
+                            city_id = cities.city_id,
+                            City = cities.City,
+                            Region = cities.Region,
+                            Country = country.name
+                        }
+                    );
+
+                ViewData["Res"] = query.ToList();
+                return View();
+            }
 
             return View(cities);
         }
