@@ -21,17 +21,12 @@ namespace ProjectData.Controllers
 
         public void HoaraSort(List<City> sortCities, SortState sortOrder, int b, int e)
         {
-            int i, j;
-            if (sortOrder == SortState.NameAsc)
+            int i = b, j = e;
+            string startStr = sortCities.ElementAt((i + j) / 2).name;
+            if (sortOrder == SortState.NameDesc)
             {
-                i = b;
-                j = e;
-
-                string startStr = sortCities.ElementAt((i + j) / 2).name;
-                //TO-DO: Fix sorting in DESC mode
                 do
                 {
-
                     while (string.Compare(sortCities.ElementAt(i).name, startStr) > 0) i++;
                     while (string.Compare(sortCities.ElementAt(j).name, startStr) < 0) j--;
 
@@ -47,18 +42,12 @@ namespace ProjectData.Controllers
             }
             else
             {
-                i = e;
-                j = b;
-
-                string startStr = sortCities.ElementAt((i + j) / 2).name;
-
                 do
                 {
+                    while (string.Compare(sortCities.ElementAt(i).name, startStr) < 0) i++;
+                    while (string.Compare(sortCities.ElementAt(j).name, startStr) > 0) j--;
 
-                    while (string.Compare(sortCities.ElementAt(i).name, startStr) < 0) i--;
-                    while (string.Compare(sortCities.ElementAt(j).name, startStr) > 0) j++;
-
-                    if (i >= j)
+                    if (i <= j)
                     {
                         City tempCity = sortCities[i];
                         sortCities[i] = sortCities[j];
@@ -66,12 +55,12 @@ namespace ProjectData.Controllers
                         i++;
                         j--;
                     }
-                } while (i >= j);
+                } while (i <= j);
             }
-
             if (i < e) HoaraSort(sortCities, sortOrder, i, e);
 
             if (b < j) HoaraSort(sortCities, sortOrder, b, j);
+
         }
 
         // GET: Cities
@@ -80,6 +69,7 @@ namespace ProjectData.Controllers
             List<City> cities = _context.city.ToList();
 
             HoaraSort(cities, sortOrder, 0, cities.Count - 1);
+            ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["CurrentFilter"] = searchString;
             ViewData["isReadable"] = false;
             if (!string.IsNullOrEmpty(searchString))

@@ -20,7 +20,7 @@ namespace ProjectData.Controllers
         }
 
         // GET: Regions
-        public IActionResult Index(bool isReadable, SortState sortOrder = SortState.NameAsc, string searchString = "")
+        public IActionResult Index(bool isReadable = true, SortState sortOrder = SortState.NameAsc, string searchString = "")
         {
             IQueryable<Region> regions = _context.region.ToList().AsQueryable();
 
