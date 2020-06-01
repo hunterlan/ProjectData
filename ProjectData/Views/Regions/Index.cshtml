@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ProjectData.Models.Region>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+    <a class="btn btn-default" style="margin-left: 1em" asp-action="Index" asp-controller="Home">Return to tables</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a class="btn btn-default" asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.region_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.country_id)
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">
+                    Name
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.region_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.country_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.region_id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.region_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
