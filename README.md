@@ -2,7 +2,7 @@
 
 Program requriments:
 
-- .NET Core (Install: link[https://dotnet.microsoft.com/download])
+- .NET Core (Install: [link](https://dotnet.microsoft.com/download))
 - MySQL
 
 Prepare:
