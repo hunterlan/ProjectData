@@ -21,34 +21,53 @@ namespace ProjectData.Controllers
 
         public void HoaraSort(List<City> sortCities, SortState sortOrder, int b, int e)
         {
-            int i = b;
-            int j = e;
-
-            string startStr = sortCities.ElementAt((i + j) / 2).name;
-            //TO-DO: Fix sorting in DESC mode
-            do
+            int i, j;
+            if (sortOrder == SortState.NameAsc)
             {
-                if (sortOrder == SortState.NameAsc)
+                i = b;
+                j = e;
+
+                string startStr = sortCities.ElementAt((i + j) / 2).name;
+                //TO-DO: Fix sorting in DESC mode
+                do
                 {
-                    while (string.Compare(sortCities.ElementAt(i).name, startStr) < 0) i++;
-                    while (string.Compare(sortCities.ElementAt(j).name, startStr) > 0) j--;
-                }
-                else
-                {
+
                     while (string.Compare(sortCities.ElementAt(i).name, startStr) > 0) i++;
                     while (string.Compare(sortCities.ElementAt(j).name, startStr) < 0) j--;
-                }
 
-                if (i <= j)
+                    if (i <= j)
+                    {
+                        City tempCity = sortCities[i];
+                        sortCities[i] = sortCities[j];
+                        sortCities[j] = tempCity;
+                        i++;
+                        j--;
+                    }
+                } while (i <= j);
+            }
+            else
+            {
+                i = e;
+                j = b;
+
+                string startStr = sortCities.ElementAt((i + j) / 2).name;
+
+                do
                 {
-                    City tempCity = sortCities[i];
-                    sortCities[i] = sortCities[j];
-                    sortCities[j] = tempCity;
-                    i++;
-                    j--;
-                }
-            } while (i <= j);
 
+                    while (string.Compare(sortCities.ElementAt(i).name, startStr) < 0) i--;
+                    while (string.Compare(sortCities.ElementAt(j).name, startStr) > 0) j++;
+
+                    if (i >= j)
+                    {
+                        City tempCity = sortCities[i];
+                        sortCities[i] = sortCities[j];
+                        sortCities[j] = tempCity;
+                        i++;
+                        j--;
+                    }
+                } while (i >= j);
+            }
 
             if (i < e) HoaraSort(sortCities, sortOrder, i, e);
 
@@ -61,8 +80,6 @@ namespace ProjectData.Controllers
             List<City> cities = _context.city.ToList();
 
             HoaraSort(cities, sortOrder, 0, cities.Count - 1);
-
-            
 
             return View(cities);
         }
