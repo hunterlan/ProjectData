@@ -15,10 +15,11 @@
 
 @if ((bool)ViewData["isReadable"] == false)
 {
-    <form asp-action="Index" asp-route-isReadable="true" method="get">
+    <form asp-action="Index" asp-route-isReadable="false" method="get">
 
         <div class="form-actions no-color">
             <p>
+                <input type="hidden" name="isReadable" value="false" />
                 Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
                 <input type="submit" value="Search" class="btn btn-primary" /> |
                 <a class="btn btn-default" asp-route-isReadable="false" asp-action="Index">Back to Full List</a>
@@ -32,6 +33,7 @@ else
 
         <div class="form-actions no-color">
             <p>
+                <input type="hidden" name="isReadable" value="true" />
                 Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
                 <input type="submit" value="Search" class="btn btn-primary" /> |
                 <a class="btn btn-default" asp-route-isReadable="true" asp-action="Index">Back to Full List</a>

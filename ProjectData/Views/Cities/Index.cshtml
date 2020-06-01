@@ -10,7 +10,7 @@
 
 <p>
     <a class="btn btn-primary" asp-action="Create">Create New</a>
-    <a class="btn btn-default" asp-action="Index" asp-controller="Home">Return to tables</a>
+    <a class="btn btn-default" style="margin-left: 1em" asp-action="Index" asp-controller="Home">Return to tables</a>
 </p>
 
 @if ((bool)ViewData["isReadable"] == false)
@@ -19,6 +19,7 @@
 
         <div class="form-actions no-color">
             <p>
+                <input type="hidden" name="isReadable" value="false" />
                 Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
                 <input type="submit" value="Search" class="btn btn-primary" /> |
                 <a class="btn btn-default" asp-route-isReadable="false" asp-action="Index">Back to Full List</a>
@@ -32,6 +33,7 @@ else
 
         <div class="form-actions no-color">
             <p>
+                <input type="hidden" name="isReadable" value="true" />
                 Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
                 <input type="submit" value="Search" class="btn btn-primary" /> |
                 <a class="btn btn-default" asp-route-isReadable="true" asp-action="Index">Back to Full List</a>
