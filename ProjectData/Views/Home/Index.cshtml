@@ -21,10 +21,18 @@
                     <a href="/Countries/Index" class="Button">See raw data countries</a>
                 </td>
                 <td>
-                    WIP
+                    <a asp-controller="Regions" asp-action="Index" asp-route-isReadable="false" class="Button">See raw data regions</a>
                 </td>
                 <td>
                     <a href="/Cities/Index" class="Button">See raw data cities</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td>
+                    <a asp-controller="Regions" asp-action="Index" asp-route-isReadable="true" class="Button">See readable regions</a>
                 </td>
             </tr>
         </tbody>

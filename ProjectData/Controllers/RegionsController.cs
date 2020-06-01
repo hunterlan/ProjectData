@@ -20,12 +20,13 @@ namespace ProjectData.Controllers
         }
 
         // GET: Regions
-        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc, string searchString = "")
+        public IActionResult Index(bool isReadable, SortState sortOrder = SortState.NameAsc, string searchString = "")
         {
             IQueryable<Region> regions = _context.region.ToList().AsQueryable();
 
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["CurrentFilter"] = searchString;
+            ViewData["isReadable"] = false;
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -38,7 +39,25 @@ namespace ProjectData.Controllers
                 _ => regions.OrderBy(s => s.name),
             };
 
-            return View(await regions.AsNoTracking().ToListAsync());
+            if(isReadable == true)
+            {
+                ViewData["isReadable"] = true;
+                CountryContext countryContext = new CountryContext();
+                var query = regions.Join(
+                    countryContext.country,
+                    regions => regions.country_id,
+                    country => country.country_id,
+                    (regions, country) => new FullRegion
+                    {
+                        region_id = regions.region_id,
+                        Country = country.name,
+                        Region = regions.name
+                    });
+                ViewData["Res"] = query.AsNoTracking().ToList();
+                return View();
+            }
+
+            return View(regions.AsNoTracking().ToList());
         }
 
         // GET: Regions/Create

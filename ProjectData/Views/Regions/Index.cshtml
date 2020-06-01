@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProjectData.Models.Region>
+﻿@using ProjectData.Models
+@model IEnumerable<ProjectData.Models.Region>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,50 +13,102 @@
     <a class="btn btn-default" style="margin-left: 1em" asp-action="Index" asp-controller="Home">Return to tables</a>
 </p>
 
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a class="btn btn-default" asp-action="Index">Back to Full List</a>
-        </p>
-    </div>
-</form>
+@if ((bool)ViewData["isReadable"] == false)
+{
+    <form asp-action="Index" asp-route-isReadable="false" method="get">
+
+        <div class="form-actions no-color">
+            <p>
+                Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" /> |
+                <a class="btn btn-default" asp-action="Index">Back to Full List</a>
+            </p>
+        </div>
+    </form>
+}
+else
+{
+    <form asp-action="Index" asp-route-isReadable="true" method="get">
+
+        <div class="form-actions no-color">
+            <p>
+                Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" /> |
+                <a class="btn btn-default" asp-action="Index">Back to Full List</a>
+            </p>
+        </div>
+    </form>
+}
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.region_id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.country_id)
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">
-                    Name
-                </a>
-            </th>
-            <th></th>
+            @if ((bool)ViewData["isReadable"] == false)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.region_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.country_id)
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-isReadable="false" asp-route-sortOrder="@ViewBag.NameSort">
+                        Name
+                    </a>
+                </th>
+            }
+            else
+            {
+                <th>
+                    Country
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-isReadable="true" asp-route-sortOrder="@ViewBag.NameSort">
+                        Name
+                    </a>
+                </th>
+            }
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.region_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.country_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.region_id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.region_id">Delete</a>
-            </td>
-        </tr>
-}
+        @if ((bool)ViewData["isReadable"] == false)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.region_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.country_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.region_id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.region_id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            @foreach (var item in ViewData["Res"] as List<FullRegion>)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Region)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.region_id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.region_id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
